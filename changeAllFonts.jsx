@@ -1,5 +1,5 @@
 ﻿var changeAllFontsScript={
-	fontName:"Kankin"
+	fontName:"ArialMT"
 };
 changeAllFontsScript.go = function(){
 
@@ -32,6 +32,8 @@ Project.prototype.getSelectedItems = function()
 
 TextLayer.prototype.changeFont=function(fontName)
 {
+	var locked = this.locked;
+	this.locked = false;
 	var prop=this.property("Source Text");
 	if (prop.numKeys>0)//if textLayer has animation
 		for (var i=1;i<=prop.numKeys;i++)
@@ -47,6 +49,7 @@ TextLayer.prototype.changeFont=function(fontName)
 		textDocument.font=fontName;//change font
 		prop.setValue(textDocument);//set new font
 	}
+	this.locked = locked;
 }
 
 CompItem.prototype.changeFonts=function()
@@ -57,7 +60,6 @@ CompItem.prototype.changeFonts=function()
 			if (curLayer instanceof TextLayer)
 				try
 					{
-						//alert("trying to change font of layer: "+curLayer.name);
 						curLayer.changeFont(changeAllFontsScript.fontName);
 					}
 					catch(e)
